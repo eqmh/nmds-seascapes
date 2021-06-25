@@ -41,7 +41,7 @@ p_month
 p_8d <- ggplot(df_8d_long, aes(fill=variable, y=value, x=seascape)) + 
     geom_bar(position="stack", stat="identity") +
     scale_fill_manual(values = mycolors) +
-    labs(title = "8-day seascapes (Aug-Sep 2017)")
+    labs(title = "8-day seascapes (Aug 23 - Sep 9, 2017)")
 p_8d
 
 ```
