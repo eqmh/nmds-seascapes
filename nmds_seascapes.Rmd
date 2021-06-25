@@ -32,15 +32,17 @@ df_8d_long <- melt(df_8d_long, id.vars=c("sample", "seascape"))
 
 nb.cols <- 51
 mycolors <- colorRampPalette(brewer.pal(8, "Spectral"))(nb.cols)
-ggplot(df_mo_long, aes(fill=variable, y=value, x=seascape)) + 
+p_month <- ggplot(df_mo_long, aes(fill=variable, y=value, x=seascape)) + 
     geom_bar(position="stack", stat="identity") +
     scale_fill_manual(values = mycolors) +
     labs(title = "Monthly seascapes (August 2017)")
+p_month
 
-ggplot(df_8d_long, aes(fill=variable, y=value, x=seascape)) + 
+p_8d <- ggplot(df_8d_long, aes(fill=variable, y=value, x=seascape)) + 
     geom_bar(position="stack", stat="identity") +
     scale_fill_manual(values = mycolors) +
     labs(title = "8-day seascapes (Aug-Sep 2017)")
+p_8d
 
 ```
 
