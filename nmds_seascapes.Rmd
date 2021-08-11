@@ -9,7 +9,7 @@ This Rmd reads data table containing taxa densities collected during IMARPE fish
 
 NMDS is generated using code at https://jkzorz.github.io/2019/06/06/NMDS.html
 
-```{r}
+```{r, message=FALSE}
 library(vegan)
 library(dplyr)
 library(ggplot2)
@@ -21,18 +21,23 @@ library(RColorBrewer)
 ```{r}
 
 # reads the tables and transforms the last two columns to characters 
-df_month <- read.csv("taxa_table_month.csv", header= TRUE)
+df_month <- read.csv("taxa_table_month.csv", header= TRUE) # this is the full table with many unnecessary columns
 df_month[52:53] <- lapply(df_month[52:53], as.character)
-df_8d <- read.csv("taxa_table_8d.csv", header= TRUE)
+df_8d <- read.csv("taxa_table_8d.csv", header= TRUE) # this is the full table with many unnecessary columns
 df_8d[52:53] <- lapply(df_8d[52:53], as.character)
+
+# use this for cleaned tables (without unnecessary columns)
+df_8d <- read.csv("taxa_table_8d_v2.csv", header= TRUE)
+df_8d[8:9] <- lapply(df_8d[8:9], as.character)
 
 # first data visualization
 df_mo_long <- df_month
 df_mo_long <- melt(df_mo_long, id.vars=c("sample", "seascape"))
 df_8d_long <- df_8d
-df_8d_long <- melt(df_8d_long, id.vars=c("sample", "seascape"))
+df_8d_long <- melt(df_8d_long, id.vars=c("sample", "seascape")) 
 
-nb.cols <- 51
+# monthly matchings
+nb.cols <- 51 
 mycolors <- colorRampPalette(brewer.pal(8, "Spectral"))(nb.cols)
 p_month <- ggplot(df_mo_long, aes(fill=variable, y=value, x=seascape)) + 
     geom_bar(position="stack", stat="identity") +
@@ -41,6 +46,11 @@ p_month <- ggplot(df_mo_long, aes(fill=variable, y=value, x=seascape)) +
 p_month
 ggsave("p_month.jpg")
 
+# 8-day matchings
+df_8d_long$seascape <- factor(df_8d_long$seascape,                                    # Change ordering manually
+                  levels = c("7", "14", "15", "21"))
+nb.cols <- 7 # use 51 for taxa_table_8d and 7 for taxa_table_8d_v2
+mycolors <- colorRampPalette(brewer.pal(8, "Spectral"))(nb.cols)
 p_8d <- ggplot(df_8d_long, aes(fill=variable, y=value, x=seascape)) + 
     geom_bar(position="stack", stat="identity") +
     scale_fill_manual(values = mycolors) +
