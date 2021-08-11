@@ -54,7 +54,9 @@ mycolors <- colorRampPalette(brewer.pal(8, "Spectral"))(nb.cols)
 p_8d <- ggplot(df_8d_long, aes(fill=variable, y=value, x=seascape)) + 
     geom_bar(position="stack", stat="identity") +
     scale_fill_manual(values = mycolors) +
-    labs(title = "8-day seascapes (Aug 23 - Sep 9, 2017)")
+    labs(title = "8-day seascapes (Aug 23 - Sep 9, 2017)", x = "Seascape class", y = "Density") +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))
 p_8d
 ggsave("p_8d.jpg")
 
